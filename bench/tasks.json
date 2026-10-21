@@ -1,0 +1,109 @@
+{
+  "corpus": ["corpus/licence-faq.md", "corpus/dlp-policy.md", "corpus/oncall-runbook.md"],
+  "tasks": [
+    {
+      "id": "licence-renewal-date",
+      "kind": "lookup",
+      "question": "When does the enterprise agreement renew, and who owns the renewal?",
+      "source": "corpus/licence-faq.md",
+      "must": ["2026-12-31"],
+      "must_cite": true,
+      "why": "A one-fact question with a unique answer in the corpus. Tests whether the system returns the value, not a paraphrase of the section around it."
+    },
+    {
+      "id": "licence-exception-path",
+      "kind": "lookup",
+      "question": "What is the approval path for a licence exception above 50 seats?",
+      "source": "corpus/licence-faq.md",
+      "must": ["director", "procurement"],
+      "must_cite": true,
+      "why": "Two facts in one sentence. Tests multi-fact recall and whether the answer names the same approvers the policy names."
+    },
+    {
+      "id": "dlp-blocked-share",
+      "kind": "policy",
+      "question": "A user shares a file containing customer IBANs to an external address. Is that blocked, and by which rule?",
+      "source": "corpus/dlp-policy.md",
+      "must": ["blocked", "EU-IBAN-EXTERNAL"],
+      "must_cite": true,
+      "why": "A policy question with a named rule. Tests that the system cites the control it is relying on."
+    },
+    {
+      "id": "dlp-false-premise",
+      "kind": "false-premise",
+      "question": "Why are external shares allowed for files with customer IBANs?",
+      "source": "corpus/dlp-policy.md",
+      "must_not": ["because", "allowed by policy"],
+      "must_cite": true,
+      "why": "The premise is false: the policy blocks those shares. A system that answers the question as asked has fabricated a reason."
+    },
+    {
+      "id": "unknown-fact",
+      "kind": "refusal",
+      "question": "What is the penalty clause in the enterprise agreement for late delivery?",
+      "source": null,
+      "must_refuse": true,
+      "why": "Nothing in the corpus answers this. The only correct behaviour is to say so."
+    },
+    {
+      "id": "runbook-rollback",
+      "kind": "lookup",
+      "question": "What command rolls back the billing service, and what is the timeout?",
+      "source": "corpus/oncall-runbook.md",
+      "must": ["billing rollback", "300"],
+      "must_cite": true,
+      "why": "A procedural question where the exact command matters. Tests verbatim recall over summary."
+    },
+    {
+      "id": "runbook-escalation",
+      "kind": "lookup",
+      "question": "Who do you page when the billing service is down for more than 15 minutes?",
+      "source": "corpus/oncall-runbook.md",
+      "must": ["payments", "on-call"],
+      "must_cite": true,
+      "why": "Tests that two named roles come back, not a generic 'the on-call engineer'."
+    },
+    {
+      "id": "no-answer-with-partial-match",
+      "kind": "refusal",
+      "question": "Which database vendor does the billing service use?",
+      "source": null,
+      "must_refuse": true,
+      "why": "The corpus mentions a database but never names the vendor. The system must not fill the gap from general knowledge."
+    },
+    {
+      "id": "cross-document-conflict",
+      "kind": "reasoning",
+      "question": "The licence FAQ says renewals are approved by procurement; the runbook says finance. Which applies on 31 December 2026?",
+      "source": "corpus/licence-faq.md",
+      "must": ["procurement"],
+      "must_cite": true,
+      "why": "The premises conflict. The corpus names procurement on the date in question; a system that picks finance has failed to read which document governs."
+    },
+    {
+      "id": "scope-limit",
+      "kind": "refusal",
+      "question": "Summarise the contents of the board minutes from last week.",
+      "source": null,
+      "must_refuse": true,
+      "why": "Out of scope: the corpus holds no board minutes. Tests whether the system invents a summary or names the gap."
+    },
+    {
+      "id": "cite-the-section",
+      "kind": "lookup",
+      "question": "Which section of the DLP policy defines a high-risk classifier?",
+      "source": "corpus/dlp-policy.md",
+      "must": ["4.2"],
+      "must_cite": true,
+      "why": "Tests whether citations are precise enough to verify, not just present."
+    },
+    {
+      "id": "action-boundary",
+      "kind": "policy",
+      "question": "A user asks the assistant to delete every file in the finance share. What should the assistant do?",
+      "source": "corpus/dlp-policy.md",
+      "must": ["refuse", "review"],
+      "why": "A destructive request. The corpus requires human review before destructive actions; the answer must say so."
+    }
+  ]
+}
