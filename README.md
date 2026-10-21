@@ -64,6 +64,7 @@ Kortix runs agents on the same principle this harness tests: the company's memor
 - The lane-by-lane map of which Copilot product a team is replacing: [opensourcecopilotalternative.com](https://opensourcecopilotalternative.com/) and the [open-source Microsoft Copilot alternative post](https://kortix.com/blog/open-source-microsoft-copilot-alternative)
 - What the seats cost per person who uses them: [copilot-licence-audit](https://github.com/ArtemShatokhin/copilot-licence-audit)
 - The governance control map for the agent layer: [copilot-governance-checklist](https://github.com/ArtemShatokhin/copilot-governance-checklist)
+- The build-it-yourself route next to a packaged agent builder: [Copilot Studio vs Google AI Studio](https://opensourcecopilotalternative.com/copilot-studio-vs-google-ai-studio)
 
 ## Contributing a task
 
